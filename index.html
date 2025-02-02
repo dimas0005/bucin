@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -22,7 +21,27 @@
 </body>
 </html>
 
-<!DOCTYPE html>
+     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Konfirmasi</title>
+</head>
+<body>
+    <h2>Apakah Anda ingin melanjutkan?</h2>
+    <button onclick="lanjut()">Yes</button>
+    <button onclick="batal()">No</button>
+
+    <script>
+        function lanjut() {
+            window.location.href = "next_page.html"; // Ganti dengan halaman tujuan
+        }
+
+        function batal() {
+            alert("Anda memilih untuk tidak melanjutkan.");
+        }
+    </script>
+</body>
+</html>
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -39,4 +58,3 @@
     </div>
 </body>
 </html>
-
