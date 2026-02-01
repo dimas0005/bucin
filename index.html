@@ -3,160 +3,233 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Surat Untukmu 💌</title>
+<title>Pesan Untukmu 💌</title>
 
 <style>
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Poppins', sans-serif;
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
 }
 
-body {
-    height: 100vh;
-    background: linear-gradient(180deg, #0c2d48, #071a2f);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
+body{
+    height:100vh;
+    background:linear-gradient(180deg,#0c2d48,#071a2f);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    overflow:hidden;
+    color:white;
 }
 
 /* bubble background */
-.bubble {
-    position: absolute;
-    border-radius: 50%;
-    border: 2px solid rgba(255,255,255,0.1);
-    animation: float 12s infinite linear;
+.bubble{
+    position:absolute;
+    width:40px;
+    height:40px;
+    border-radius:50%;
+    border:2px solid rgba(255,255,255,0.12);
+    animation:float linear infinite;
 }
 
-@keyframes float {
-    from { transform: translateY(100vh); }
-    to { transform: translateY(-120vh); }
+@keyframes float{
+    from{transform:translateY(110vh);}
+    to{transform:translateY(-130vh);}
 }
 
-/* container */
-.container {
-    text-align: center;
-    z-index: 10;
+/* message icon */
+.message-box{
+    text-align:center;
+    cursor:pointer;
+    animation:pulse 2s infinite;
+}
+
+@keyframes pulse{
+    0%{transform:scale(1);}
+    50%{transform:scale(1.08);}
+    100%{transform:scale(1);}
+}
+
+.message-icon{
+    font-size:70px;
+}
+
+.message-text{
+    margin-top:10px;
+    font-size:14px;
+    opacity:0.9;
 }
 
 /* envelope */
-.envelope {
-    width: 200px;
-    cursor: pointer;
-    transition: transform 0.3s ease;
+.envelope{
+    width:260px;
+    height:170px;
+    position:relative;
+    display:none;
+    cursor:pointer;
 }
 
-.envelope:hover {
-    transform: scale(1.05);
+.back{
+    position:absolute;
+    width:100%;
+    height:100%;
+    background:#ff8fb1;
+    border-radius:10px;
 }
 
-/* button */
-.btn {
-    margin-top: 20px;
-    padding: 12px 28px;
-    background: #ff8fb1;
-    border-radius: 25px;
-    color: white;
-    font-size: 16px;
-    border: none;
-    cursor: pointer;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+.front{
+    position:absolute;
+    width:0;
+    height:0;
+    border-left:130px solid transparent;
+    border-right:130px solid transparent;
+    border-top:90px solid #ff6f9e;
+    bottom:0;
+    z-index:3;
 }
 
-.btn:hover {
-    background: #ff6f9e;
+.flap{
+    position:absolute;
+    width:0;
+    height:0;
+    border-left:130px solid transparent;
+    border-right:130px solid transparent;
+    border-bottom:90px solid #ffb3c6;
+    top:0;
+    transform-origin:top;
+    transition:0.7s ease;
+    z-index:4;
 }
 
-/* letter */
-.letter {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.6);
-    display: none;
-    justify-content: center;
-    align-items: center;
+/* letter inside */
+.inner-letter{
+    position:absolute;
+    width:90%;
+    height:90%;
+    background:white;
+    top:5%;
+    left:5%;
+    border-radius:8px;
+    z-index:2;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    color:#ff6f9e;
+    font-size:20px;
+    transition:0.7s ease;
 }
 
-.paper {
-    background: white;
-    width: 85%;
-    max-width: 350px;
-    padding: 25px;
-    border-radius: 15px;
-    animation: pop 0.4s ease;
+.envelope.open .flap{
+    transform:rotateX(180deg);
 }
 
-@keyframes pop {
-    from { transform: scale(0.6); opacity: 0; }
-    to { transform: scale(1); opacity: 1; }
+.envelope.open .inner-letter{
+    transform:translateY(-120%);
 }
 
-.paper h2 {
-    color: #ff6f9e;
-    margin-bottom: 10px;
+/* popup */
+.popup{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.6);
+    display:none;
+    justify-content:center;
+    align-items:center;
 }
 
-.paper p {
-    font-size: 14px;
-    line-height: 1.6;
-    color: #333;
+.paper{
+    background:white;
+    width:85%;
+    max-width:360px;
+    padding:25px;
+    border-radius:15px;
+    animation:pop 0.4s ease;
+    color:#333;
+    text-align:center;
 }
 
-.close {
-    margin-top: 15px;
-    text-align: center;
-    color: #ff6f9e;
-    cursor: pointer;
-    font-weight: bold;
+@keyframes pop{
+    from{transform:scale(0.6);opacity:0;}
+    to{transform:scale(1);opacity:1;}
+}
+
+.paper h2{
+    color:#ff6f9e;
+    margin-bottom:10px;
+}
+
+.paper p{
+    font-size:14px;
+    line-height:1.6;
+}
+
+.close{
+    margin-top:15px;
+    color:#ff6f9e;
+    font-weight:bold;
+    cursor:pointer;
 }
 </style>
 </head>
 
 <body>
 
-<!-- bubbles -->
+<!-- background bubbles -->
 <script>
 for(let i=0;i<20;i++){
-    const b = document.createElement('div');
-    b.className = 'bubble';
-    b.style.width = b.style.height = Math.random()*60 + 20 + 'px';
-    b.style.left = Math.random()*100 + '%';
-    b.style.animationDuration = Math.random()*10 + 8 + 's';
+    let b=document.createElement('div');
+    b.className='bubble';
+    b.style.left=Math.random()*100+'%';
+    b.style.animationDuration=(8+Math.random()*10)+'s';
     document.body.appendChild(b);
 }
 </script>
 
-<div class="container">
-    <img src="https://i.imgur.com/6o5VZKp.png" class="envelope" id="open">
-    <br>
-    <button class="btn" onclick="openLetter()">Buka Surat 💗</button>
+<!-- message icon -->
+<div class="message-box" id="messageBox" onclick="showEnvelope()">
+    <div class="message-icon">📩</div>
+    <div class="message-text">Kamu punya pesan</div>
 </div>
 
-<div class="letter" id="letter">
+<!-- envelope -->
+<div class="envelope" id="envelope" onclick="openEnvelope()">
+    <div class="back"></div>
+    <div class="inner-letter">💌</div>
+    <div class="front"></div>
+    <div class="flap"></div>
+</div>
+
+<!-- popup letter -->
+<div class="popup" id="popup">
     <div class="paper">
-        <h2>Hai Kamu 💌</h2>
+        <h2>Hai Kamu 💗</h2>
         <p>
-            Ini adalah contoh website surat interaktif.<br><br>
-            Kamu bisa mengubah teks ini sesuka hati untuk belajar atau eksperimen.
-            Website ini cocok untuk GitHub Pages dan hanya menggunakan HTML, CSS,
-            dan JavaScript.
+            Ini adalah contoh website pesan interaktif.<br><br>
+            Diawali ikon pesan, lalu berubah menjadi amplop
+            yang terbuka dengan animasi, seperti di video.<br><br>
+            Cocok untuk GitHub Pages dan belajar HTML, CSS, JS.
         </p>
-        <div class="close" onclick="closeLetter()">Tutup</div>
+        <div class="close" onclick="closePopup()">Tutup</div>
     </div>
 </div>
 
 <script>
-function openLetter(){
-    document.getElementById('letter').style.display = 'flex';
+function showEnvelope(){
+    document.getElementById('messageBox').style.display='none';
+    document.getElementById('envelope').style.display='block';
 }
 
-function closeLetter(){
-    document.getElementById('letter').style.display = 'none';
+function openEnvelope(){
+    const env=document.getElementById('envelope');
+    env.classList.add('open');
+    setTimeout(()=>{
+        document.getElementById('popup').style.display='flex';
+    },800);
+}
+
+function closePopup(){
+    document.getElementById('popup').style.display='none';
 }
 </script>
 
