@@ -164,16 +164,6 @@ body{
     animation:pop 0.6s cubic-bezier(.22,.61,.36,1);
     color:#333;
     box-shadow:0 30px 80px rgba(0,0,0,0.4);
-    position:relative;
-}
-
-.paper::before{
-    content:"✨";
-    position:absolute;
-    top:-18px;
-    left:50%;
-    transform:translateX(-50%);
-    font-size:26px;
 }
 
 @keyframes pop{
@@ -192,9 +182,8 @@ body{
 .paper p{
     font-size:14px;
     line-height:1.9;
-    max-width:320px;        /* 🔥 bikin ke bawah */
+    max-width:320px;
     margin:0 auto;
-    text-align:left;
 }
 
 .divider{
@@ -215,7 +204,11 @@ body{
 
 <body>
 
+<!-- 🎵 MUSIC -->
+<audio id="bgMusic" src="until-i-found-you.mp3" loop></audio>
+
 <script>
+/* particles */
 for(let i=0;i<35;i++){
     let p=document.createElement('div');
     p.className='particle';
@@ -225,6 +218,7 @@ for(let i=0;i<35;i++){
     document.body.appendChild(p);
 }
 
+/* hearts */
 for(let i=0;i<20;i++){
     let h=document.createElement('div');
     h.className='heart';
@@ -284,6 +278,32 @@ for(let i=0;i<20;i++){
 const messageBox=document.getElementById('messageBox');
 const envelope=document.getElementById('envelope');
 const popup=document.getElementById('popup');
+const music=document.getElementById('bgMusic');
+
+function fadeInMusic(){
+    music.volume=0;
+    music.play();
+    let v=0;
+    const fade=setInterval(()=>{
+        if(v<0.4){
+            v+=0.01;
+            music.volume=v;
+        }else clearInterval(fade);
+    },100);
+}
+
+function fadeOutMusic(){
+    let v=music.volume;
+    const fade=setInterval(()=>{
+        if(v>0){
+            v-=0.01;
+            music.volume=v;
+        }else{
+            music.pause();
+            clearInterval(fade);
+        }
+    },100);
+}
 
 function showEnvelope(){
     messageBox.style.opacity=0;
@@ -296,13 +316,13 @@ function showEnvelope(){
 function openEnvelope(){
     envelope.classList.add('open');
     envelope.style.pointerEvents='none';
-    setTimeout(()=>{
-        popup.style.display='flex';
-    },1200);
+    fadeInMusic();
+    setTimeout(()=>popup.style.display='flex',1200);
 }
 
 function closePopup(){
     popup.style.display='none';
+    fadeOutMusic();
 }
 </script>
 
