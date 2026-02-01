@@ -15,7 +15,7 @@
 
 body{
     height:100vh;
-    background:linear-gradient(180deg,#0c2d48,#071a2f);
+    background:linear-gradient(180deg,#071a2f,#020c16);
     display:flex;
     justify-content:center;
     align-items:center;
@@ -23,19 +23,19 @@ body{
     color:white;
 }
 
-/* bubble background */
+/* background bubble */
 .bubble{
     position:absolute;
     width:40px;
     height:40px;
     border-radius:50%;
-    border:2px solid rgba(255,255,255,0.12);
+    border:2px solid rgba(255,255,255,0.1);
     animation:float linear infinite;
 }
 
 @keyframes float{
-    from{transform:translateY(110vh);}
-    to{transform:translateY(-130vh);}
+    from{transform:translateY(120vh);}
+    to{transform:translateY(-140vh);}
 }
 
 /* message icon */
@@ -43,6 +43,7 @@ body{
     text-align:center;
     cursor:pointer;
     animation:pulse 2s infinite;
+    z-index:5;
 }
 
 @keyframes pulse{
@@ -58,7 +59,7 @@ body{
 .message-text{
     margin-top:10px;
     font-size:14px;
-    opacity:0.9;
+    opacity:0.85;
 }
 
 /* envelope */
@@ -68,6 +69,7 @@ body{
     position:relative;
     display:none;
     cursor:pointer;
+    z-index:3;
 }
 
 .back{
@@ -75,7 +77,7 @@ body{
     width:100%;
     height:100%;
     background:#ff8fb1;
-    border-radius:10px;
+    border-radius:12px;
 }
 
 .front{
@@ -95,14 +97,13 @@ body{
     height:0;
     border-left:130px solid transparent;
     border-right:130px solid transparent;
-    border-bottom:90px solid #ffb3c6;
+    border-bottom:90px solid #ffc2d6;
     top:0;
     transform-origin:top;
     transition:0.7s ease;
     z-index:4;
 }
 
-/* letter inside */
 .inner-letter{
     position:absolute;
     width:90%;
@@ -110,13 +111,13 @@ body{
     background:white;
     top:5%;
     left:5%;
-    border-radius:8px;
+    border-radius:10px;
     z-index:2;
     display:flex;
     justify-content:center;
     align-items:center;
+    font-size:22px;
     color:#ff6f9e;
-    font-size:20px;
     transition:0.7s ease;
 }
 
@@ -128,22 +129,23 @@ body{
     transform:translateY(-120%);
 }
 
-/* popup */
+/* popup FIX */
 .popup{
     position:fixed;
     inset:0;
-    background:rgba(0,0,0,0.6);
+    background:rgba(0,0,0,0.65);
     display:none;
     justify-content:center;
     align-items:center;
+    z-index:999; /* 🔥 PALING DEPAN */
 }
 
 .paper{
     background:white;
-    width:85%;
+    width:90%;
     max-width:360px;
     padding:25px;
-    border-radius:15px;
+    border-radius:18px;
     animation:pop 0.4s ease;
     color:#333;
     text-align:center;
@@ -175,7 +177,6 @@ body{
 
 <body>
 
-<!-- background bubbles -->
 <script>
 for(let i=0;i<20;i++){
     let b=document.createElement('div');
@@ -186,13 +187,11 @@ for(let i=0;i<20;i++){
 }
 </script>
 
-<!-- message icon -->
 <div class="message-box" id="messageBox" onclick="showEnvelope()">
     <div class="message-icon">📩</div>
     <div class="message-text">Kamu punya pesan</div>
 </div>
 
-<!-- envelope -->
 <div class="envelope" id="envelope" onclick="openEnvelope()">
     <div class="back"></div>
     <div class="inner-letter">💌</div>
@@ -200,15 +199,13 @@ for(let i=0;i<20;i++){
     <div class="flap"></div>
 </div>
 
-<!-- popup letter -->
 <div class="popup" id="popup">
     <div class="paper">
-        <h2>Hai Kamu 💗</h2>
+        <h2>Hai Kamu ❤️</h2>
         <p>
-            Ini adalah contoh website pesan interaktif.<br><br>
-            Diawali ikon pesan, lalu berubah menjadi amplop
-            yang terbuka dengan animasi, seperti di video.<br><br>
-            Cocok untuk GitHub Pages dan belajar HTML, CSS, JS.
+            Bug sudah diperbaiki 🎉<br><br>
+            Sekarang popup surat tidak akan tertutup
+            oleh amplop atau segitiga pink lagi.
         </p>
         <div class="close" onclick="closePopup()">Tutup</div>
     </div>
@@ -216,20 +213,20 @@ for(let i=0;i<20;i++){
 
 <script>
 function showEnvelope(){
-    document.getElementById('messageBox').style.display='none';
-    document.getElementById('envelope').style.display='block';
+    messageBox.style.display='none';
+    envelope.style.display='block';
 }
 
 function openEnvelope(){
-    const env=document.getElementById('envelope');
-    env.classList.add('open');
+    envelope.classList.add('open');
+    envelope.style.pointerEvents='none'; // ⛔ cegah klik ulang
     setTimeout(()=>{
-        document.getElementById('popup').style.display='flex';
+        popup.style.display='flex';
     },800);
 }
 
 function closePopup(){
-    document.getElementById('popup').style.display='none';
+    popup.style.display='none';
 }
 </script>
 
