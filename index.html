@@ -3,195 +3,161 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Chat App</title>
+<title>Surat Untukmu 💌</title>
 
 <style>
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: 'Poppins', sans-serif;
 }
 
 body {
-    background: #0b141a;
+    height: 100vh;
+    background: linear-gradient(180deg, #0c2d48, #071a2f);
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    overflow: hidden;
 }
 
-/* Container */
-.chat-container {
-    width: 100%;
-    max-width: 420px;
-    height: 100vh;
-    background: #111b21;
-    display: flex;
-    flex-direction: column;
-}
-
-/* Header */
-.chat-header {
-    background: #202c33;
-    padding: 12px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.chat-header img {
-    width: 40px;
-    height: 40px;
+/* bubble background */
+.bubble {
+    position: absolute;
     border-radius: 50%;
+    border: 2px solid rgba(255,255,255,0.1);
+    animation: float 12s infinite linear;
 }
 
-.chat-header .info {
-    color: white;
+@keyframes float {
+    from { transform: translateY(100vh); }
+    to { transform: translateY(-120vh); }
 }
 
-.chat-header .info h4 {
-    font-size: 15px;
+/* container */
+.container {
+    text-align: center;
+    z-index: 10;
 }
 
-.chat-header .info span {
-    font-size: 12px;
-    color: #aebac1;
-}
-
-/* Chat body */
-.chat-body {
-    flex: 1;
-    padding: 15px;
-    overflow-y: auto;
-    background-image: url("https://i.imgur.com/5uQ0FhF.png");
-}
-
-/* Bubble */
-.message {
-    max-width: 75%;
-    padding: 8px 10px;
-    margin-bottom: 10px;
-    font-size: 14px;
-    line-height: 1.4;
-    position: relative;
-    word-wrap: break-word;
-}
-
-.message span {
-    font-size: 10px;
-    color: #d1d7db;
-    float: right;
-    margin-left: 10px;
-}
-
-/* Left */
-.left {
-    background: #202c33;
-    color: white;
-    border-radius: 0 10px 10px 10px;
-}
-
-/* Right */
-.right {
-    background: #005c4b;
-    color: white;
-    margin-left: auto;
-    border-radius: 10px 0 10px 10px;
-}
-
-/* Input */
-.chat-input {
-    background: #202c33;
-    padding: 10px;
-    display: flex;
-    gap: 10px;
-}
-
-.chat-input input {
-    flex: 1;
-    padding: 10px;
-    border-radius: 20px;
-    border: none;
-    outline: none;
-    background: #2a3942;
-    color: white;
-}
-
-.chat-input button {
-    background: #00a884;
-    border: none;
-    color: white;
-    padding: 0 16px;
-    border-radius: 50%;
+/* envelope */
+.envelope {
+    width: 200px;
     cursor: pointer;
-    font-size: 16px;
+    transition: transform 0.3s ease;
 }
 
-.chat-input button:hover {
-    opacity: 0.9;
+.envelope:hover {
+    transform: scale(1.05);
+}
+
+/* button */
+.btn {
+    margin-top: 20px;
+    padding: 12px 28px;
+    background: #ff8fb1;
+    border-radius: 25px;
+    color: white;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.btn:hover {
+    background: #ff6f9e;
+}
+
+/* letter */
+.letter {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+
+.paper {
+    background: white;
+    width: 85%;
+    max-width: 350px;
+    padding: 25px;
+    border-radius: 15px;
+    animation: pop 0.4s ease;
+}
+
+@keyframes pop {
+    from { transform: scale(0.6); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+.paper h2 {
+    color: #ff6f9e;
+    margin-bottom: 10px;
+}
+
+.paper p {
+    font-size: 14px;
+    line-height: 1.6;
+    color: #333;
+}
+
+.close {
+    margin-top: 15px;
+    text-align: center;
+    color: #ff6f9e;
+    cursor: pointer;
+    font-weight: bold;
 }
 </style>
 </head>
 
 <body>
 
-<div class="chat-container">
-    <!-- HEADER -->
-    <div class="chat-header">
-        <img src="https://i.imgur.com/QCNbOAo.png">
-        <div class="info">
-            <h4>Nama Kontak</h4>
-            <span>online</span>
-        </div>
-    </div>
+<!-- bubbles -->
+<script>
+for(let i=0;i<20;i++){
+    const b = document.createElement('div');
+    b.className = 'bubble';
+    b.style.width = b.style.height = Math.random()*60 + 20 + 'px';
+    b.style.left = Math.random()*100 + '%';
+    b.style.animationDuration = Math.random()*10 + 8 + 's';
+    document.body.appendChild(b);
+}
+</script>
 
-    <!-- CHAT BODY -->
-    <div class="chat-body" id="chatBody">
-        <div class="message left">
-            Halo 👋
-            <span>10:01</span>
-        </div>
+<div class="container">
+    <img src="https://i.imgur.com/6o5VZKp.png" class="envelope" id="open">
+    <br>
+    <button class="btn" onclick="openLetter()">Buka Surat 💗</button>
+</div>
 
-        <div class="message right">
-            Hai juga 😄
-            <span>10:02</span>
-        </div>
-    </div>
-
-    <!-- INPUT -->
-    <div class="chat-input">
-        <input type="text" id="messageInput" placeholder="Ketik pesan...">
-        <button onclick="sendMessage()">➤</button>
+<div class="letter" id="letter">
+    <div class="paper">
+        <h2>Hai Kamu 💌</h2>
+        <p>
+            Ini adalah contoh website surat interaktif.<br><br>
+            Kamu bisa mengubah teks ini sesuka hati untuk belajar atau eksperimen.
+            Website ini cocok untuk GitHub Pages dan hanya menggunakan HTML, CSS,
+            dan JavaScript.
+        </p>
+        <div class="close" onclick="closeLetter()">Tutup</div>
     </div>
 </div>
 
 <script>
-function sendMessage() {
-    const input = document.getElementById("messageInput");
-    const chatBody = document.getElementById("chatBody");
-
-    if (input.value.trim() === "") return;
-
-    const message = document.createElement("div");
-    message.className = "message right";
-
-    const time = new Date().toLocaleTimeString("id-ID", {
-        hour: "2-digit",
-        minute: "2-digit"
-    });
-
-    message.innerHTML = `${input.value}<span>${time}</span>`;
-    chatBody.appendChild(message);
-
-    input.value = "";
-    chatBody.scrollTop = chatBody.scrollHeight;
+function openLetter(){
+    document.getElementById('letter').style.display = 'flex';
 }
 
-// Enter key
-document.getElementById("messageInput").addEventListener("keypress", function(e) {
-    if (e.key === "Enter") sendMessage();
-});
+function closeLetter(){
+    document.getElementById('letter').style.display = 'none';
+}
 </script>
 
 </body>
